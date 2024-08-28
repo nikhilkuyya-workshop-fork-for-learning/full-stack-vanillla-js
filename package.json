@@ -1,21 +1,24 @@
 {
-  "name": "initial-app-template",
+  "name": "learning-fs-v-js",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "web": "npx browser-sync './' ui/",
     "cli": "node ui/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ntl": "ntl",
+    "nt": "nt"
   },
   "keywords": [],
-  "author": "erickwendel",
+  "author": "nikhilkuyya",
   "license": "ISC",
   "type": "module",
   "engines": {
     "node": "v20.17.0"
   },
   "devDependencies": {
-    "browser-sync": "^2.29.3"
+    "browser-sync": "^2.29.3",
+    "ntl": "^5.1.0"
   }
 }
