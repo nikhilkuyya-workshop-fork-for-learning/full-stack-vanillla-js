@@ -1,0 +1,21 @@
+{
+  "configurations": [
+    {
+      "name":"Run Test Debugger",
+      "type": "node",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "test:dev"
+      ],
+      "cwd": "${fileDirname}",
+      "request": "launch",
+      "skipFiles": [
+        "node_modules/**",
+        "<node_internals>/**/**"
+      ],
+      "remoteRoot": "/usr/src/app",
+      "console": "integratedTerminal"
+    },
+    ]
+}

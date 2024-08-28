@@ -8,7 +8,8 @@
     "cli": "node ui/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "ntl": "ntl",
-    "nt": "nt"
+    "nt": "nt",
+    "test:dev":"node --inspect --watch --test test/"
   },
   "keywords": [],
   "author": "nikhilkuyya",
