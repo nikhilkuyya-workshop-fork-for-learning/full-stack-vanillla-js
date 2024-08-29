@@ -1,10 +1,11 @@
-import { describe, it, mock } from 'node:test';
+import { describe, it } from 'node:test';
 import Controller from './../src/shared/controller.js';
 import WebView from './../src/platforms/web/view.js';
 import assert from 'node:assert';
 
-globalThis.alert = mock.fn();
 function setglobalDocument(mock, mockData) {
+  globalThis.alert = mock.fn();
+
   globalThis.document = {
     createElement: mock.fn(() => {
       return {
@@ -27,7 +28,8 @@ function setglobalDocument(mock, mockData) {
 
 describe('web app test suite ', () => {
 
-  it('submit with proper should add to table', () => {
+  it('submit with proper should add to table', (context) => {
+    const mock = context.mock;
     setglobalDocument(mock,{name: 'test', age: 2, email: 'email@mail.com'});
     const view = new WebView();
     const addRow = mock.method(view, view.addRow.name);
@@ -68,7 +70,8 @@ describe('web app test suite ', () => {
     assert.strictEqual(resetForm.mock.callCount(),1);
   })
 
-  it('should call notify when submitted with no proper value', () => {
+  it('should call notify when submitted with no proper value', (context) => {
+      const mock = context.mock;
       setglobalDocument(mock,{name: '', age: 2, email: 'email@mail.com'});
       const view = new WebView();
       const addRow = mock.method(view, view.addRow.name);
