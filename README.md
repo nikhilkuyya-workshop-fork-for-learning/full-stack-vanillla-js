@@ -1,6 +1,6 @@
 # Fullstack-vanilla-javaScript-fem
 
-![Test Status](https://github.com/nikhilkuyya-workshop-fork-for-learning/full-stack-vanillla-js/actions/workflows/Run%20Tests/badge.svg)
+![Test Status](https://github.com/nikhilkuyya-workshop-fork-for-learning/full-stack-vanillla-js/workflows/Run%20Tests/badge.svg)
 
 ## Abstract Factory
 ```
