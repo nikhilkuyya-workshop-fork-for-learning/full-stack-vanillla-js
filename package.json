@@ -6,9 +6,10 @@
   "scripts": {
     "web": "npx browser-sync './' ui/",
     "cli": "node ui/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test test/",
     "ntl": "ntl",
     "nt": "nt",
+
     "test:dev":"node --inspect --watch --test test/"
   },
   "keywords": [],
