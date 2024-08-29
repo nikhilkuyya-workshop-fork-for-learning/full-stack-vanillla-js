@@ -16,5 +16,21 @@
       ],
       "console": "integratedTerminal"
     },
+    {
+      "name":"Run CLI ",
+      "type": "node",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "cli:dev"
+      ],
+      "cwd": "${fileDirname}",
+      "request": "launch",
+      "skipFiles": [
+        "node_modules/**",
+        "<node_internals>/**/**"
+      ],
+      "console": "integratedTerminal"
+    },
     ]
 }
