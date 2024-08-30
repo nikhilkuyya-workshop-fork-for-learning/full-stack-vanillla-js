@@ -32,10 +32,14 @@ export default class Controller {
       this.#view.notify({msg : 'Please, check the inputs'});
       return;
     }
+    try {
+      await this.#service.createUser(data);
+    }catch(err){
+      this.#view.notify({msg: 'creation failed'})
+    }
 
-    await this.#service.createUser(data);
     this.#view.resetForm();
-    const users = await this.#service.getUsers();
+    const users = await this.#getUsersFromAPI();
     this.#view.render(users);
 
 

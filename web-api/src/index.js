@@ -1,6 +1,6 @@
 import http from 'node:http';
 import { handlers } from './handlers.js';
-
-http.createServer(handlers).listen(3000).on('listening',() => {
-  console.log('listening on port 3000')
+const PORT = process.env.PORT || 3000;
+http.createServer(handlers).listen(PORT).on('listening',() => {
+  console.log(`listening on port ${PORT}`)
 })
