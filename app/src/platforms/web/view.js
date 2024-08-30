@@ -7,7 +7,7 @@ export default class View extends ViewBase {
   #tableBody = document.querySelector('.flex-table');
   #form = document.querySelector('#form');
   #btnClear = document.querySelector("#btnFormClear");
-
+  #notify = document.querySelector('#notifyDiv')
 
   /**
    * Configures the clear action for the form.
@@ -54,7 +54,11 @@ export default class View extends ViewBase {
    * @returns {void}
    */
    notify({ msg, isError }) {
-      alert(msg);
+      this.#notify.classList.remove('d-none');
+      this.#notify.textContent = msg;
+      setTimeout(() => {
+        this.#notify.classList.add('d-none');
+      },3000)
    }
 
   /**

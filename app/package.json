@@ -15,12 +15,10 @@
   },
   "scripts": {
     "web": "npx browser-sync './' ui/",
-    "cli": "node ui/index.js",
+    "cli": "NODE_ENV='prod' node ui/index.js",
     "cli:dev": "node --inspect --watch ui/index.js",
     "dev": "npm run web & npm run cli:dev",
     "test": "node --test --experimental-test-coverage test/",
-    "ntl": "ntl",
-    "nt": "nt",
     "test:dev": "node --inspect --watch --test test/"
   },
   "keywords": [

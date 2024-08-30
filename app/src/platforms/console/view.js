@@ -1,7 +1,6 @@
 import ViewBase from "../../shared/viewBase.js";
 import LayoutBuilder from "./layoutBuilder.js";
 
-console.log('hello console!');
 export default class View extends ViewBase {
   #layoutBuilder;
   #components;
@@ -21,7 +20,7 @@ export default class View extends ViewBase {
 
   notify({msg}) {
     this.#components?.alert.setMessage(msg);
-    this.#components.screen.render();
+    this.#components?.screen.render();
   }
 
   configureFormClear(fn) {

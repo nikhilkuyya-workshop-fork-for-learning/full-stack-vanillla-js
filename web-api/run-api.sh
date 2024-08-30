@@ -1,4 +1,4 @@
-curl -i 'http://localhost:3000/users'
+curl -i 'http://localhost:5001/users'
 
 echo
 echo
@@ -10,4 +10,4 @@ curl \
   -i \
   -d '{"name": "test", "age": 2, "email": "test@mail.com"}' \
   -X POST \
- 'http://localhost:3000/users'
+ 'http://localhost:5001/users'

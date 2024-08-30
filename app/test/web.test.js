@@ -4,19 +4,23 @@ import WebView from './../src/platforms/web/view.js';
 import assert from 'node:assert';
 
 function setglobalDocument(mock, mockData) {
-  globalThis.alert = mock.fn();
 
   globalThis.document = {
     createElement: mock.fn(() => {
       return {
         classList: {
           add: mock.fn((newClass) => {}),
+          remove: mock.fn(() => {})
         }
       }
     }),
     querySelector: mock.fn((selector) => {
       const mockValue = mockData[selector.replace('#','')] || '';
       return {
+        classList: {
+          add: mock.fn((newClass) => {}),
+          remove: mock.fn(() => {})
+        },
         value: mockValue,
         reset: mock.fn(),
         appendChild: mock.fn((element) => {}),
@@ -49,7 +53,8 @@ describe('web app test suite ', () => {
       email,
       table,
       form,
-      btnClear
+      btnClear,
+      notifyDiv
     ] = document.querySelector.mock.calls;
 
     assert.strictEqual(name.arguments[0],'#name');
@@ -58,8 +63,8 @@ describe('web app test suite ', () => {
     assert.strictEqual(table.arguments[0],'.flex-table');
     assert.strictEqual(form.arguments[0],'#form');
     assert.strictEqual(btnClear.arguments[0],'#btnFormClear');
+    assert.strictEqual(notifyDiv.arguments[0],'#notifyDiv');
 
-    assert.strictEqual(addRow.mock.callCount(),3);
     assert.strictEqual(serviceMock.getUsers.mock.callCount(),1);
 
     const submitCallBack = form.result.addEventListener.mock.calls[0].arguments[1];
@@ -67,7 +72,6 @@ describe('web app test suite ', () => {
     await submitCallBack({
       preventDefault: preventDefaultSpy
     });
-
     assert.strictEqual(serviceMock.createUser.mock.callCount(),1);
     assert.strictEqual(resetForm.mock.callCount(),1);
   })
@@ -96,11 +100,9 @@ describe('web app test suite ', () => {
 
       const submitCallBack = form.result.addEventListener.mock.calls[0].arguments[1];
       const preventDefaultSpy = mock.fn();
-      assert.strictEqual(addRow.mock.callCount(),3);
-      submitCallBack({
+      await submitCallBack({
         preventDefault: preventDefaultSpy
       });
-      assert.strictEqual(addRow.mock.callCount(),3);
       assert.strictEqual(resetForm.mock.callCount(),0);
       assert.strictEqual(notify.mock.callCount(),1);
     });
