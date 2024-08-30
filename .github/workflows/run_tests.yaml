@@ -23,8 +23,9 @@ jobs:
 
       - name: Restore Respository
         run: npm ci
-        working_directory: ./app/
+        working-directory: ./app/
+
 
       - name: Run test
         run: npm test
-        working_directory: ./app/
+        working-directory: ./app/
