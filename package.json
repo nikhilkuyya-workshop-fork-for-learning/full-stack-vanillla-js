@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "bin": {
-    "@nk/uma-vjs":"./ui/index.js"
+    "nk-user-management-cli":"./ui/index.js"
   },
   "bugs": {
     "url": "https://github.com/nikhilkuyya-workshop-fork-for-learning/full-stack-vanillla-js/issues"
