@@ -12,26 +12,32 @@ function getView() {
     configureFormSubmit = mock.fn();
     notify = mock.fn();
   }
-  return new View();
+  const service = {
+    getUsers: mock.fn(() => []),
+    createUser: mock.fn(() => ({}))
+  }
+  return {view: new View(),service}
 }
 
 describe('controller',() => {
-  it('controller calls of setup',() => {
-    const view = getView();
-    Controller.init({
-      view
+  it('controller calls of setup', async () => {
+    const {view,service} = getView();
+    await Controller.init({
+      view,
+      service
     })
     assert.strictEqual(view.configureFormSubmit.mock.callCount(),1);
     assert.strictEqual(view.configureFormClear.mock.callCount(),1);
     assert.strictEqual(view.render.mock.callCount(),1);
   })
 
-  it('viewBase',() => {
+  it('viewBase',async () => {
     const view = new ViewBase();
+    const {service} = getView();
     const configureFormClearSpy = mock.method(view,view.configureFormClear.name);
     try {
-      Controller.init({
-        view
+      await Controller.init({
+        view,service
       })
     }catch(e) {
       assert.strictEqual(configureFormClearSpy.mock.callCount(),1);

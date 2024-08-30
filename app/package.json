@@ -16,7 +16,8 @@
   "scripts": {
     "web": "npx browser-sync './' ui/",
     "cli": "node ui/index.js",
-    "dev": "node --inspect --watch ui/index.js",
+    "cli:dev": "node --inspect --watch ui/index.js",
+    "dev": "npm run web & npm run cli:dev",
     "test": "node --test --experimental-test-coverage test/",
     "ntl": "ntl",
     "nt": "nt",

@@ -20,7 +20,7 @@ export default class View extends ViewBase {
   }
 
   notify({msg}) {
-    this.#components.alert.setMessage(msg);
+    this.#components?.alert.setMessage(msg);
     this.#components.screen.render();
   }
 

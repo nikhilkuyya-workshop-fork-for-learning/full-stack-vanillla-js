@@ -1,4 +1,4 @@
-import { describe, it } from 'node:test';
+import { describe, it, mock } from 'node:test';
 import Controller from './../src/shared/controller.js';
 import WebView from './../src/platforms/web/view.js';
 import assert from 'node:assert';
@@ -25,18 +25,22 @@ function setglobalDocument(mock, mockData) {
     }),
   };
 }
-
+const serviceMock = {
+  getUsers: mock.fn(() => []),
+  createUser: mock.fn(() => ({}))
+}
 describe('web app test suite ', () => {
 
-  it('submit with proper should add to table', (context) => {
+  it('submit with valid form, shoulld call create', async (context) => {
     const mock = context.mock;
     setglobalDocument(mock,{name: 'test', age: 2, email: 'email@mail.com'});
     const view = new WebView();
     const addRow = mock.method(view, view.addRow.name);
     const resetForm = mock.method(view,view.resetForm.name);
 
-    Controller.init({
-      view: view
+    await Controller.init({
+      view: view,
+      service: serviceMock
     })
 
     const [
@@ -56,21 +60,19 @@ describe('web app test suite ', () => {
     assert.strictEqual(btnClear.arguments[0],'#btnFormClear');
 
     assert.strictEqual(addRow.mock.callCount(),3);
+    assert.strictEqual(serviceMock.getUsers.mock.callCount(),1);
 
     const submitCallBack = form.result.addEventListener.mock.calls[0].arguments[1];
     const preventDefaultSpy = mock.fn();
-    submitCallBack({
+    await submitCallBack({
       preventDefault: preventDefaultSpy
     });
 
-    assert.strictEqual(addRow.mock.callCount(),4);
-    assert.deepStrictEqual(addRow.mock.calls.at(3).arguments[0],
-    {name: 'test', age : 2, email: 'email@mail.com'});
-
+    assert.strictEqual(serviceMock.createUser.mock.callCount(),1);
     assert.strictEqual(resetForm.mock.callCount(),1);
   })
 
-  it('should call notify when submitted with no proper value', (context) => {
+  it('should call notify when submitted with no proper value', async (context) => {
       const mock = context.mock;
       setglobalDocument(mock,{name: '', age: 2, email: 'email@mail.com'});
       const view = new WebView();
@@ -78,8 +80,9 @@ describe('web app test suite ', () => {
       const resetForm = mock.method(view,view.resetForm.name);
       const notify = mock.method(view,view.notify.name);
 
-      Controller.init({
-        view: view
+      await Controller.init({
+        view: view,
+        service: serviceMock
       })
 
       const [

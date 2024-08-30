@@ -28,12 +28,12 @@ export default class View extends ViewBase {
      * @returns {void}
   */
   configureFormSubmit(fn) {
-    this.#form.addEventListener('submit',(event) => {
+    this.#form.addEventListener('submit',async (event) => {
       event.preventDefault();
       const name = this.#name.value;
       const age = this.#age.value;
       const email = this.#email.value;
-      return fn({name,age,email});
+      return await fn({name,age,email});
     })
   }
 

@@ -1,20 +1,25 @@
 /**
  * @typedef {import('./viewBase.js').default} View
+ * @typedef {import('./service.js').default} Service
  */
 export default class Controller {
   /** @type {View} */
   #view;
+  /** @type {Service} */
+  #service;
 
   /**
-   * @param { {view: View}} deps
+   * @param { {view: View,service: Service}} deps
+   *
    */
-  constructor({view}) {
+  constructor({view,service}) {
     this.#view = view;
+    this.#service = service;
   }
 
-  static init(deps) {
+  static async init(deps) {
     const controller = new Controller(deps);
-    controller.#init();
+    await controller.#init();
     return controller;
   }
 
@@ -22,28 +27,42 @@ export default class Controller {
     return data.name && data.age && data.email;
   }
 
-  #onSubmit(data) {
+  async #onSubmit(data) {
     if(!this.#isValid(data)) {
       this.#view.notify({msg : 'Please, check the inputs'});
       return;
     }
 
+    await this.#service.createUser(data);
     this.#view.resetForm();
-    this.#view.addRow({name: data.name, age: data.age , email: data.email});
+    const users = await this.#service.getUsers();
+    this.#view.render(users);
+
 
   }
 
 
 
-  #init() {
+  async #init() {
     this.#view.configureFormClear(() => {});
     this.#view.configureFormSubmit(this.#onSubmit.bind(this));
+    const users = await this.#getUsersFromAPI();
     const initialData = [
       { name: 'Erick Wendel', age: 28, email: 'erick@erick.com' },
       { name: 'Ana Neri', age: 24, email: 'ana@ana.com' },
       { name: 'Marc Berg', age: 24, email: 'marc@marc.com' },
+      ...users
     ]
     this.#view.render(initialData);
   }
 
+
+  async #getUsersFromAPI() {
+    try {
+      return await this.#service.getUsers();
+    } catch(err){
+      this.#view.notify({msg: "Error getting data from server."});
+      return [];
+    }
+  }
 }

@@ -24,9 +24,18 @@ function handlers(request, response) {
   // const pathname = path && Array.isArray(path) ? path.join('/') : path;
   const key = `${pathname}:${method.toLocaleLowerCase()}`;
   const choosen = allRoutes[key] ?? allRoutes.deafultRoute ;
-  return Promise.resolve(choosen(request,response)).catch(err => {
-    console.error('error',err);
-  });
+  return Promise.resolve(choosen(request,response)).catch(handleError(response));
 };
+
+function handleError(response) {
+  return (error) => {
+    console.log('something went wrong',error.stack);
+    response.writeHead(500,DEFAULT_HEADERS);
+    response.write(JSON.stringify({
+      error: 'something went wrong'
+    }));
+    return response.end();
+  }
+}
 
 export { handlers};
