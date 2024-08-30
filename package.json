@@ -1,10 +1,10 @@
 {
-  "name": "@nikhilkuyya/user-management-app",
+  "name": "@nikhilkuyya/user-management-app-vanilla-js",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "bin": {
-    "user-management-app":"./ui/index.js"
+    "@nk/uma-vjs":"./ui/index.js"
   },
   "bugs": {
     "url": "https://github.com/nikhilkuyya-workshop-fork-for-learning/full-stack-vanillla-js/issues"
