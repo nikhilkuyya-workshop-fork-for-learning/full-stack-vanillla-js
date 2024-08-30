@@ -8,8 +8,9 @@ export default class LayoutBuilder {
   #inputs = {};
   #buttons = {};
   #alert;
+  #table;
 
-  setScreen({title}){
+  setScreen({title}) {
     this.#screen = blessed.screen({
       smartCSR: true,
       title
@@ -41,7 +42,8 @@ export default class LayoutBuilder {
         style: {
             fg: 'white',
             bg: 'green',
-            focus: { bg: 'cyan' }
+            focus: { bg: 'white', fg: 'green' },
+            hover: { bg: 'white', fg: 'green' },
         }
     })
     return input
@@ -56,8 +58,8 @@ export default class LayoutBuilder {
       bottom,
       style: {
         bg, fg,
-        focus: { bg : `ligth${bg}`},
-        hover: { bg: `light${bg}` }
+        focus: { bg : fg, fg: bg },
+        hover: { bg: fg, fg: bg }
       },
       mouse: true,
       keys: true,
@@ -79,6 +81,7 @@ export default class LayoutBuilder {
       vi: false,
       label: 'User From',
       border: {type: 'line'},
+      clickable: true,
       style: {
         'fg': 'white',
         'bg': 'black'
@@ -88,7 +91,6 @@ export default class LayoutBuilder {
     const nameInput = this.#createInputField({parent: form, name: 'name', top: 1, label: 'Name:'});
     const ageInput = this.#createInputField({parent: form, name: 'age', top: 4, label: 'Age:'})
     const emailInput = this.#createInputField({parent: form, name: 'email', top: 7, label: 'Email:'})
-    nameInput.focus();
     this.#inputs.name = nameInput;
     this.#inputs.age = ageInput;
     this.#inputs.email = emailInput;
@@ -139,6 +141,41 @@ export default class LayoutBuilder {
     return this;
   }
 
+  setTable({ numColumns }) {
+    const columnWidth = Math.floor(this.#layout.width / numColumns)
+    const minColumnWidth = 10
+    const columnWidths = Array(numColumns)
+        .fill(columnWidth)
+        .map(width => Math.max(width, minColumnWidth))
+
+    this.#table = contrib.table({
+        parent: this.#layout,
+        mouse: true,
+        scrollbar: {
+            ch: ' ',
+            inverse: true,
+        },
+        tags: true,
+        keys: true,
+        fg: 'white',
+        selectedFg: 'white',
+        selectedBg: 'blue',
+        interactive: true,
+        label: 'Users',
+        width: '100%',
+        height: '50%',
+        top: 0,
+        left: 0,
+        border: { type: 'line', fg: 'cyan' },
+        columnSpacing: 2,
+        columnWidth: columnWidths
+    })
+
+
+
+    return this
+  }
+
   build() {
     const components = {
       screen: this.#screen,
@@ -146,9 +183,9 @@ export default class LayoutBuilder {
       form: this.#form,
       inputs: this.#inputs,
       buttons: this.#buttons,
-      alert: this.#alert
+      alert: this.#alert,
+      table: this.#table
     }
-    components.screen.render();
     return components;
   }
 }

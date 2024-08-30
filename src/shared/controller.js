@@ -29,7 +29,8 @@ export default class Controller {
     }
 
     this.#view.resetForm();
-    this.#view.addRow(data);
+    this.#view.addRow({name: data.name, age: data.age , email: data.email});
+
   }
 
 

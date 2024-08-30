@@ -6,6 +6,13 @@
   "bin": {
     "user-management-app":"./ui/index.js"
   },
+  "bugs": {
+    "url": "https://github.com/nikhilkuyya-workshop-fork-for-learning/full-stack-vanillla-js/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikhilkuyya-workshop-fork-for-learning/full-stack-vanillla-js"
+  },
   "scripts": {
     "web": "npx browser-sync './' ui/",
     "cli": "node ui/index.js",
@@ -15,7 +22,9 @@
     "nt": "nt",
     "test:dev": "node --inspect --watch --test test/"
   },
-  "keywords": [],
+  "keywords": [
+    "fullstack-javascript"
+  ],
   "author": "nikhilkuyya",
   "license": "ISC",
   "type": "module",

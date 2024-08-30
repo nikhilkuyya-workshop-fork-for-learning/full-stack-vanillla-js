@@ -7,7 +7,8 @@ export default class View extends ViewBase {
   #components;
   #onClearButton;
   #onSubmitButton;
-
+  #headers;
+  #data = [];
   constructor(layoutBuilder = new LayoutBuilder()) {
     super();
     this.#layoutBuilder = layoutBuilder;
@@ -36,6 +37,29 @@ export default class View extends ViewBase {
     }
   }
 
+
+  #prepareData(items) {
+    if (!items.length) {
+        return {
+            headers: this.#headers,
+            data: []
+        }
+    }
+
+    this.#headers = Object.keys(items[0])
+    return {
+        headers: this.#headers,
+        data: items.map(item => Object.values(item))
+    }
+  }
+
+  addRow(item) {
+      this.#data.push(item)
+      const items = this.#prepareData(this.#data)
+      this.#components.table.setData(items)
+      this.#components.screen.render()
+  }
+
   render(items) {
     this.#components = this.#layoutBuilder
       .setScreen({title: 'User Management App'})
@@ -43,7 +67,11 @@ export default class View extends ViewBase {
       .setForm({
         onSubmit: this.#onSubmitButton.bind(this),
         onClear: this.#onClearButton.bind(this)
-      }).setAlertComponent()
+      }).setAlertComponent().setTable({numColumns: 3})
       .build();
+
+      items.forEach((item) => {
+        this.addRow(item);
+      })
   }
 }
