@@ -1,9 +1,14 @@
 // import { parseURL } from 'whatwg-url';
-import { parse } from 'node:url';
+import { parse , fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 import { routes } from './routes/userRoutes.js';
 import { DEFAULT_HEADERS } from './util/util.js';
+import { generateUserInsanctances } from './factory/userFactory.js';
 
-const userRoutes = routes({});
+const currentDir = dirname(fileURLToPath(import.meta.url));
+const dbPath = join(currentDir, '..','database','data.db');
+const userFactory = generateUserInsanctances({dbPath})
+const userRoutes = routes({userFactory});
 
 const allRoutes = {
   ...userRoutes,
